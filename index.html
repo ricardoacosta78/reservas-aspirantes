@@ -7,7 +7,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
-        .container { max-width: 1200px; margin: 0 auto; background: #fff; border-radius: 20px; padding: 30px; box-shadow: 0 20px 60px rgba(0, 0, 0, .3); }
+        .container { max-width: 1200px; margin: 0 auto; background: #fff; border-radius: 20px; padding: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
         h1 { text-align: center; color: #667eea; margin-bottom: 10px; font-size: 2.5em; }
         .subtitle { text-align: center; color: #666; margin-bottom: 30px; font-size: 1.1em; }
         .form-container { background: #f8f9fa; padding: 25px; border-radius: 15px; margin-bottom: 30px; border: 2px solid #667eea; }
@@ -15,9 +15,9 @@
         label { display: block; margin-bottom: 8px; color: #333; font-weight: 600; font-size: 1.1em; }
         input, select { width: 100%; padding: 12px 15px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; transition: border-color .3s; }
         input:focus, select:focus { outline: none; border-color: #667eea; }
-        button { width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; border: none; border-radius: 8px; font-size: 18px; font-weight: 600; cursor: pointer; transition: transform .2s; }
+        button { width: 100%; padding: 15px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff; border: none; border-radius: 8px; font-size: 1em; font-weight: 600; cursor: pointer; transition: background .3s, transform .2s; }
         button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, .4); }
-        .reserva-card { background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 20px; border-radius: 12px; margin-bottom: 15px; border-left: 5px solid #667eea; display: flex; justify-content: space-between; align-items: center; animation: slideIn .3s ease; }
+        .reserva-card { background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); padding: 20px; border-radius: 12px; margin-bottom: 15px; animation: slideIn 0.5s ease forwards; }
         @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
         .reserva-nombre { font-size: 1.3em; font-weight: 700; color: #667eea; margin-bottom: 8px; }
         .reserva-detalles { color: #666; font-size: 1em; line-height: 1.6; }
@@ -33,99 +33,116 @@
         <p class="subtitle">Sistema de reservas en tiempo real - Ricardo Acosta</p>
         <div class="message" id="message"></div>
         <div class="form-container">
-            <h2 style="margin-bottom:20px;color:#667eea">Nueva Reserva</h2>
-            <form id="reservaForm">
-                <div class="form-group">
-                    <label for="nombre">👤 Nombre Completo</label>
-                    <input type="text" id="nombre" placeholder="Ej: María García López" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">📧 Email</label>
-                    <input type="email" id="email" placeholder="tu.email@ejemplo.com" required>
-                </div>
-                <div class="form-group">
-                    <label for="fecha">📅 Fecha de la Clase</label>
-                    <input type="date" id="fecha" required>
-                </div>
-                <div class="form-group">
-                    <label for="horario">🕐 Horario</label>
-                    <select id="horario" required>
-                        <option value="">Selecciona un horario</option>
-                        <option value="09:00 - 11:00">09:00 - 11:00</option>
-                        <option value="11:00 - 13:00">11:00 - 13:00</option>
-                        <option value="15:00 - 17:00">15:00 - 17:00</option>
-                        <option value="17:00 - 19:00">17:00 - 19:00</option>
-                    </select>
-                </div>
-                <button type="submit">✨ Reservar Plaza</button>
-            </form>
-        </div>
-        <div>
-            <h2 style="margin-bottom:20px;color:#667eea">📋 Reservas Actuales</h2>
-            <div id="reservasLista">
-                <p style="text-align:center;color:#999">Cargando reservas...</p>
+            <div class="form-group">
+                <label for="nombre">Nombre del Aspirante</label>
+                <input type="text" id="nombre" placeholder="Ingresa tu nombre">
             </div>
+            <div class="form-group">
+                <label for="correo">Correo Electrónico</label>
+                <input type="email" id="correo" placeholder="Ingresa tu correo">
+            </div>
+            <div class="form-group">
+                <label for="fecha">Fecha de la Clase</label>
+                <input type="date" id="fecha">
+            </div>
+            <div class="form-group">
+                <label for="hora">Hora de la Clase</label>
+                <select id="hora">
+                    <option value="">Selecciona una hora</option>
+                    <option value="08:00">08:00</option>
+                    <option value="09:00">09:00</option>
+                    <option value="10:00">10:00</option>
+                    <option value="11:00">11:00</option>
+                    <option value="12:00">12:00</option>
+                    <option value="13:00">13:00</option>
+                    <option value="14:00">14:00</option>
+                    <option value="15:00">15:00</option>
+                    <option value="16:00">16:00</option>
+                    <option value="17:00">17:00</option>
+                    <option value="18:00">18:00</option>
+                </select>
+            </div>
+            <button onclick="reservarClase()">Reservar Clase</button>
         </div>
+        <h2>📅 Próximas Reservas</h2>
+        <div id="reservas-container"></div>
     </div>
     <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
+        // Configuración de Firebase con storageBucket corregido
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js";
 
         const firebaseConfig = {
-            apiKey: "AIzaSyDq2DainuH0XBt_HgfVbe8nbx-cNUhOe5w",
+            apiKey: "YOUR_API_KEY",
             authDomain: "reservas---aspirantes.firebaseapp.com",
             projectId: "reservas---aspirantes",
             storageBucket: "reservas---aspirantes.appspot.com",
-            messagingSenderId: "532490496833",
-            appId: "1:532490496833:web:777de8774d9fa66c334fc0",
-            measurementId: "G-52CYQC1LVM"
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
         };
 
+        // Inicializar Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const form = document.getElementById('reservaForm');
-        const reservasLista = document.getElementById('reservasLista');
-        const message = document.getElementById('message');
 
-        function showMessage(text, type) {
-            message.textContent = text;
-            message.className = `message ${type}`;
-            message.style.display = 'block';
-            setTimeout(() => { message.style.display = 'none'; }, 3000);
-        }
+        // Reservar clase
+        async function reservarClase() {
+            const nombre = document.getElementById('nombre').value;
+            const correo = document.getElementById('correo').value;
+            const fecha = document.getElementById('fecha').value;
+            const hora = document.getElementById('hora').value;
 
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+            if (!nombre || !correo || !fecha || !hora) {
+                mostrarMensaje('error', 'Por favor, completa todos los campos.');
+                return;
+            }
+
             try {
                 await addDoc(collection(db, 'reservas'), {
-                    nombre: document.getElementById('nombre').value,
-                    email: document.getElementById('email').value,
-                    fecha: document.getElementById('fecha').value,
-                    horario: document.getElementById('horario').value,
-                    timestamp: new Date().toISOString()
+                    nombre,
+                    correo,
+                    fecha,
+                    hora,
+                    timestamp: new Date()
                 });
-                showMessage('✅ ¡Reserva realizada con éxito!', 'success');
-                form.reset();
+                mostrarMensaje('success', '¡Reserva realizada con éxito!');
+                document.getElementById('nombre').value = '';
+                document.getElementById('correo').value = '';
+                document.getElementById('fecha').value = '';
+                document.getElementById('hora').value = '';
             } catch (error) {
-                console.error('Error:', error);
-                showMessage('❌ Error al realizar la reserva', 'error');
+                console.error('Error al reservar clase:', error);
+                mostrarMensaje('error', 'Ocurrió un error al realizar la reserva.');
             }
-        });
+        }
 
-        const q = query(collection(db, 'reservas'), orderBy('timestamp', 'desc'));
-        onSnapshot(q, (snapshot) => {
-            if (snapshot.empty) {
-                reservasLista.innerHTML = '<p style="text-align:center;color:#999">No hay reservas todavía. ¡Sé el primero en reservar!</p>';
-            } else {
-                reservasLista.innerHTML = '';
-                snapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const card = document.createElement('div');
-                    card.className = 'reserva-card';
-                    card.innerHTML = `<div><div class="reserva-nombre">${data.nombre}</div><div class="reserva-detalles">📧 ${data.email}<br>🕐 ${data.horario}</div></div><div class="reserva-fecha">${data.fecha}</div>`;
-                    reservasLista.appendChild(card);
-                });
-            }
+        // Mostrar mensaje
+        function mostrarMensaje(tipo, mensaje) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.className = `message ${tipo}`;
+            messageDiv.textContent = mensaje;
+            messageDiv.style.display = 'block';
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 3000);
+        }
+
+        // Mostrar reservas en tiempo real
+        const reservasContainer = document.getElementById('reservas-container');
+        const reservasQuery = query(collection(db, 'reservas'), orderBy('timestamp', 'asc'));
+        onSnapshot(reservasQuery, (snapshot) => {
+            reservasContainer.innerHTML = '';
+            snapshot.forEach((doc) => {
+                const reserva = doc.data();
+                const reservaCard = document.createElement('div');
+                reservaCard.className = 'reserva-card';
+                reservaCard.innerHTML = `
+                    <div class="reserva-nombre">${reserva.nombre}</div>
+                    <div class="reserva-detalles">${reserva.correo}</div>
+                    <div class="reserva-fecha">${reserva.fecha} - ${reserva.hora}</div>
+                `;
+                reservasContainer.appendChild(reservaCard);
+            });
         });
     </script>
 </body>
